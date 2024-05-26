@@ -42,12 +42,18 @@ public class SmileyPanel extends JPanel {
 		//calculate eye diameter as 1/20 of the face diameter
 		int ed = d / 20;
 		                
-		//draw 2 eyes
-		Graphics2D g2 = (Graphics2D) g;
-		g2.draw(new Ellipse2D.Double(size.width/2 + size.width/8, y+size.height/5, size.width/8, size.height/8));
-		g2.draw(new Ellipse2D.Double(size.width/2 - size.width/4, y+size.height/5, size.width/8, size.height/8));
-		// pupils
-		g2.draw(new Ellipse2D.Double(size.width/2 - size.width/4, y+size.height/5, size.width/8, size.height/8));
-		g2.draw(new Ellipse2D.Double(size.width/2 - size.width/4, y+size.height/5, size.width/8, size.height/8));
+		// draw 2 eyes
+		g.setColor(Color.WHITE);
+		g.fillOval(size.width/2 + size.width/8, y + size.height/5, size.width/8, size.height/8);
+		g.fillOval(size.width/2 - size.width/4, y + size.height/5, size.width/8, size.height/8);
+		
+		// draw third eye on forehead
+		g.fillOval(size.width/2 - size.width/16, y + size.height/7, size.width/8, size.height/8);
+
+		// draw 2 pupils
+		g.setColor(Color.BLACK);
+		g.fillOval(size.width/2 + size.width/8, y + size.height/5, size.width/12, size.height/8);
+		g.fillOval(size.width/2 - size.width/4, y + size.height/5, size.width/12, size.height/8);
+		g.fillOval(size.width/2 - size.width/32, y + size.height/7, size.width/16, size.height/8);
 	}
 }
