@@ -1,0 +1,13 @@
+package helloworld;
+
+public class HelloWorld {
+
+	public static void main(String[] args) {
+		HelloWorld hello = new HelloWorld();
+		hello.printName();
+	}
+	
+	public void printName() {
+		System.out.println("My name is Nicky Wen");
+	}
+}
