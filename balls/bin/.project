@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>Lab3</name>
+	<name>week02-lab-ballapp-basecode</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -16,7 +16,7 @@
 	</natures>
 	<filteredResources>
 		<filter>
-			<id>1716878987780</id>
+			<id>1716699072115</id>
 			<name></name>
 			<type>30</type>
 			<matcher>
