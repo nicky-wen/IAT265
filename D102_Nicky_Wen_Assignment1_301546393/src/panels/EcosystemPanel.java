@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.HashMap;
+import java.util.UUID;
 
 import javax.swing.JPanel;
 
@@ -12,11 +14,24 @@ import models.background.Bubble;
 import models.Creature;
 import models.creatures.Turtle;
 
-public class BackgroundPanel extends JPanel {
+public class EcosystemPanel extends JPanel {
 
-    public BackgroundPanel(Dimension size) {
+    private HashMap<String, Creature> creatures = new HashMap<String, Creature>();
+
+    public EcosystemPanel(Dimension size) {
         super();
         this.setSize(size);
+
+        for (int i = 0; i < 5; i++) {
+            Creature turtle = new Turtle(
+                    (int) (Math.random() * size.getWidth()),
+                    (int) (Math.random() * size.getHeight()),
+                    (int) Math.min(size.getHeight(), size.getWidth()) / 20,
+                    0,
+                    0);
+            String random_id = UUID.randomUUID().toString();
+            creatures.put(random_id, turtle);
+        }
     }
 
     @Override
@@ -38,21 +53,12 @@ public class BackgroundPanel extends JPanel {
         g2.fillRect(0, 0, this.getWidth(), this.getHeight());
 
         // 2. Add bubbles
-        // int i;
-        // for(i = 0; i < 5; i++) {
+        // Bubble bubble = new Bubble(0, 0, 25);
+        // bubble.draw(g2);
 
-        // }
-        Bubble bubble = new Bubble(0, 0, 25);
-        bubble.draw(g2);
-
-        // for (int i = 0; i < 5; i++) {
-        Creature turtle = new Turtle(1, // (int) (Math.random() * 1920),
-                0,
-                (int) Math.random() * 10,
-                0,
-                0);
-        turtle.draw(g2);
-        // }
-
+        // Create turtles
+        creatures.forEach((key, creature) -> {
+            creature.draw(g2);
+        });
     }
 }
