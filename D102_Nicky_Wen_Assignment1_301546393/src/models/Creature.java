@@ -1,6 +1,7 @@
 package models;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 
 import processing.core.PVector;
@@ -21,8 +22,13 @@ public abstract class Creature {
         pos.add(speed);
     }
 
-    public void checkCollision() {
-        // TODO
+    public void changeSpeed(PVector speed_change) {
+        if ((speed.x + speed_change.x > -10) &&
+                (speed.x + speed_change.x < 10) &&
+                (speed.y + speed_change.y > -10) &&
+                (speed.y + speed_change.y < 10)) {
+            speed.add(speed_change);
+        }
     }
 
     public void increaseScale() {
@@ -30,4 +36,6 @@ public abstract class Creature {
     };
 
     public abstract void draw(Graphics2D g);
+
+    public abstract void checkCollision(Dimension size);
 }

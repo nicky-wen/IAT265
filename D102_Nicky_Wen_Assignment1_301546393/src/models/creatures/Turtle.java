@@ -2,7 +2,9 @@ package models.creatures;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 
 import models.Creature;
 import processing.core.PVector;
@@ -13,9 +15,15 @@ public class Turtle extends Creature {
         super(x, y, size, speed_x, speed_y);
     };
 
+    @Override
     public void draw(Graphics2D g) {
+        AffineTransform af = g.getTransform();
+
         g.translate(pos.x, pos.y);
+        g.rotate(speed.heading());
         g.scale(scale, scale);
+        if (speed.x < 0)
+            g.scale(1, -1);
 
         // 1. Draw body
         drawBody(g);
@@ -29,6 +37,7 @@ public class Turtle extends Creature {
         // 4. Draw legs
         drawLegs(g);
 
+        g.setTransform(af);
     }
 
     private void drawBody(Graphics2D g) {
@@ -74,5 +83,13 @@ public class Turtle extends Creature {
         // back legs
         g.fillOval(-body_width / 3, body_height / 5, body_width / 5, (2 * body_height) / 5);
 
+    }
+
+    @Override
+    public void checkCollision(Dimension panelSize) {
+        if ((pos.x < size / 2 * scale) || (pos.x > panelSize.width - size / 2 * scale))
+            speed.x *= -1;
+        if ((pos.y < size / 2 * scale) || (pos.y > panelSize.height - size / 2 * scale))
+            speed.y *= -1;
     }
 }

@@ -5,33 +5,42 @@ import java.awt.Dimension;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.UUID;
 
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
-import models.background.Bubble;
 import models.Creature;
 import models.creatures.Turtle;
+import processing.core.PVector;
+import utils.Util;
 
-public class EcosystemPanel extends JPanel {
+public class EcosystemPanel extends JPanel implements ActionListener {
 
+    private Dimension size;
+    private Timer timer;
     private HashMap<String, Creature> creatures = new HashMap<String, Creature>();
 
     public EcosystemPanel(Dimension size) {
         super();
-        this.setSize(size);
+        this.size = size;
 
         for (int i = 0; i < 5; i++) {
             Creature turtle = new Turtle(
-                    (int) (Math.random() * size.getWidth()),
-                    (int) (Math.random() * size.getHeight()),
+                    (int) (Math.random() * (size.getWidth() / 2)),
+                    (int) (Math.random() * (size.getHeight() / 2)),
                     (int) Math.min(size.getHeight(), size.getWidth()) / 20,
-                    0,
-                    0);
+                    (int) Util.random(-10, 10),
+                    (int) Util.random(-10, 10));
             String random_id = UUID.randomUUID().toString();
             creatures.put(random_id, turtle);
         }
+
+        timer = new Timer(33, this);
+        timer.start();
     }
 
     @Override
@@ -60,5 +69,20 @@ public class EcosystemPanel extends JPanel {
         creatures.forEach((key, creature) -> {
             creature.draw(g2);
         });
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        creatures.forEach((key, creature) -> {
+            int x_shift = (int) Util.random(-1, 1);
+            int y_shift = (int) Util.random(-1, 1);
+            creature.changeSpeed(new PVector(x_shift, y_shift));
+            creature.move();
+        });
+        creatures.forEach((key, creature) -> {
+            creature.checkCollision(size);
+        });
+
+        repaint();
     }
 }
