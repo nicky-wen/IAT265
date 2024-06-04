@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import processing.core.PVector;
+
 public class PacmanPanel extends JPanel implements ActionListener {
 
 	private class MyMouseMotionAdapter extends MouseMotionAdapter {
@@ -25,8 +27,17 @@ public class PacmanPanel extends JPanel implements ActionListener {
 	}
 
 	private class MyMouseAdapter extends MouseAdapter {
+		@Override
 		public void mouseClicked(MouseEvent e) {
-			System.out.println(e.toString());
+			for (Pacman p : pList) {
+				int mouse_x = e.getX();
+				int mouse_y = e.getY();
+				PVector mouse_position = new PVector(mouse_x, mouse_y);
+				PVector curr_position = p.getPos();
+
+				PVector direction = PVector.sub(mouse_position, curr_position).normalize();
+				p.setSpeed(direction.x * 5, direction.y * 5);
+			}
 		}
 	}
 
@@ -41,7 +52,7 @@ public class PacmanPanel extends JPanel implements ActionListener {
 		this.setPreferredSize(pnlSize);
 
 		this.pList = new ArrayList<Pacman>();
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 7; i++) {
 			Pacman p = new Pacman(pnlSize.width / 3, pnlSize.height / 2, Math.min(pnlSize.width, pnlSize.height) / 10);
 			pList.add(p);
 		}
@@ -84,18 +95,5 @@ public class PacmanPanel extends JPanel implements ActionListener {
 	// if (p2.checkMouseHit(e))
 	// p2.select();
 	// }
-
-	public void mousePressed(MouseEvent e) {
-		for (Pacman p : pList)
-			if (p.checkMouseHit(e)) {
-				if (e.isShiftDown())
-					p.enlarge();
-				else if (e.isAltDown())
-					p.shrink();
-				else
-					p.select();
-			} else
-				p.deselect();
-	}
 
 }

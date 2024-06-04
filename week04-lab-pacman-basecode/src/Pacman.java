@@ -87,8 +87,20 @@ public class Pacman {
 		scale = s;
 	}
 
+	public PVector getPos() {
+		return this.pos;
+	}
+
+	public PVector getSpeed() {
+		return this.speed;
+	}
+
 	public void setPos(int x, int y) {
 		pos.set(x, y);
+	}
+
+	public void setSpeed(float x, float y) {
+		speed.set(x, y);
 	}
 
 	public void setToOtherPacmanScale(Pacman p) {
