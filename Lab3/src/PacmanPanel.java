@@ -10,8 +10,8 @@ import javax.swing.Timer;
 
 public class PacmanPanel extends JPanel implements ActionListener {
 
-	private Pacman ball;
-	private Pacman ball2;
+	private Pacman p1;
+	private Pacman p2;
 	private Timer t;
 	private Dimension size;
 
@@ -19,12 +19,13 @@ public class PacmanPanel extends JPanel implements ActionListener {
 		super();
 
 		size = initialSize;
-		ball = new Pacman(initialSize.width / 2, initialSize.height / 2,
-				Math.min(initialSize.width, initialSize.height) / 10,
+		p1 = new Pacman(size.width / 3, size.height / 2,
+				Math.min(size.width, size.height) / 10,
 				(int) Util.random(-10, 10), (int) Util.random(-10, 10), Util.randomColor());
-		ball2 = new Pacman(initialSize.width / 4, initialSize.height / 4,
-				Math.min(initialSize.width, initialSize.height) / 10,
+		p2 = new Pacman(size.width / 6, size.height / 2,
+				Math.min(size.width, size.height) / 10,
 				(int) Util.random(-10, 10), (int) Util.random(-10, 10), Util.randomColor());
+
 		t = new Timer(33, this);
 		t.start();
 	}
@@ -32,16 +33,19 @@ public class PacmanPanel extends JPanel implements ActionListener {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		this.size = getSize();
 		setBackground(Color.DARK_GRAY);
 		Graphics2D g2 = (Graphics2D) g; // new
-		ball.draw(g2);
-		ball2.draw(g2);
+		p1.draw(g2);
+		p2.draw(g2);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		ball.move();
-		ball.checkCollision(size);
+		p1.move();
+		p1.checkCollision(size, p2);
+		p2.move();
+		p2.checkCollision(size, p1);
 
 		repaint();
 	}
